@@ -10,7 +10,7 @@ module.exports = {
     })
    },
     createsubject: function(req, res) {
-        var params = [req.body.subjectName, req.body.student_Id];
+        var params = [req.body.subjectName];
         console.log(req.body.subjectName,"create");
         models.createsubject(params, function(err,results) {
             if (err) { console.log("error post at subjects controller",err) }

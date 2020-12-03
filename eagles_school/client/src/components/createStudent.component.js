@@ -1,23 +1,42 @@
 import React ,{Component} from 'react';
 import axios from 'axios';
 import StudentList from './studentList.component';
-
 //creating student component
 export default class CreateStudent extends Component {
     constructor(props){
         super(props);
         this.state={
+            check :'false',
             studentName :'',
             studentpassword : '',
             userType :'',
-            students :[]
+            students :[],
+            subjects : [],
+            
         }
         //to bind this to the functions
         this.changeFormHandle = this.changeFormHandle.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
     }
-    
+
+     //   this function is to get all data from database when we open the page
+     componentDidMount() {
+        axios.get('/getAllSubjects')
+          .then(response => {
+              
+            this.setState({ subjects: response.data })
+
+             this.state.subjects.map(subject =>{
+                 console.log(subject.subjectName)
+             })
+            
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+        }
+
+        
     //function to handle alll input fields
     changeFormHandle(e){
         const target =e.target;
@@ -28,49 +47,38 @@ export default class CreateStudent extends Component {
          [name] : value
         })
     }
-
     //function to submit form
     onSubmit(e){
         e.preventDefault();
-        // const users = {
-        //     studentName: this.state.studentName,
-        //     studentpassword: this.state.studentpassword,
-        //     userType: this.state.userType
-        //   }
-      
-        //   console.log(users);
+   
           console.log(this.state.studentName)
           console.log(this.state.studentpassword)
           console.log(this.state.userType)
-        //   axios.post('/create', {
-        //     studentName: this.state.studentName,
-        //     studentpassword: this.state.studentpassword,
-        //     userType: this.state.userType
-        //   })
-        //   .then((res) => {
-        //       console.log(res.studentName)
-        //     // console.log(users)
-        //    })
-        //   .catch((err) => console.log(err));
+        //   console.log('submit',this.state.subjects)
+      
           axios({
               method : 'post',
               url :'/create/student',
               data :{
                 studentName: this.state.studentName,
                 studentpassword: this.state.studentpassword,
-                userType: this.state.userType
+                userType: this.state.userType,
+                // subjects: this.state.subjects.subjectName
               },
+             
               headers : {'Content-Type': 'multipart/form-data'}
+              
             });
+        
       //for take the user to the home after submite the form
     //we need to uncomment this line
     // window.location = '/';
     }
 
-    
+   
 
-      
     render(){
+       
         return (
             <div>
             <div> 
@@ -106,17 +114,35 @@ export default class CreateStudent extends Component {
                         onChange={this.changeFormHandle}>
                             <option value = 'Student'>Student</option>
                             <option value = 'Admin'>Admin</option>
-                        {/* {
-                            this.state.users.map(function(user) {
-                            return <option 
-                                key={user}
-                                value={user}>{user}
-                                </option>;
-                            })
-                            
-                        } */}
+                       
                     </select>
             </div>
+            
+           
+                {/* {
+                   this.state.subjects.map(subject =>{
+                   
+                    <input  type='checkbox' name = 'subjects' value={subject} checked={this.state.checked} onChange={this.changeFormHandle}/>;
+                    <label>{subject.subjectName}</label>
+                   })
+                } */}
+
+                 {/* <div>
+                {
+                this.state.subjects.map(subject =>
+                     <tr>
+                        <td>
+                        <div class="checkbox checkbox-circle checkbox-color-scheme">
+                            <label class="checkbox-checked">
+                            <input type="checkbox" value={subject.subjectName} onChange={this.onAddingItem} /> <span class="label-text">{subject.subjectName}</span>
+                            </label>
+                        </div>
+                        </td>
+                 </tr>
+                )}
+      </div> */}
+            
+            
                 <div className="form-group">
                     <input type="submit" value="Create Student" className="btn btn-primary" />
                 </div>
@@ -126,9 +152,6 @@ export default class CreateStudent extends Component {
                     <StudentList />
                 </div>
           </div>
-
-            
-            
         )
     }
 }

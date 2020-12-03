@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // import studentsMock from '../data/students'
 import axios from 'axios';
-
 //creating component to fill table rows
 const Student = (props) => (
     <tr>
@@ -10,14 +9,13 @@ const Student = (props) => (
     <td>{props.student.studentName}</td>
     <td>{props.student.studentPassword}</td>
      <td>
-      <Link to={"/edit/"+props.student.studentId}>edit</Link> 
+      <button><Link to={"/edit/"+props.student.studentId}>edit</Link></button> 
     </td>
     <td>
        <a href="#" onClick={() => { props.deleteStudent(props.student.studentId) }}>delete</a>
     </td>
   </tr>
 )
-
 //creating studentList component
 export default class StudentList extends Component {
     constructor(props){
@@ -27,7 +25,6 @@ export default class StudentList extends Component {
     }
     //this function is to get all data from database when we open the page
     componentDidMount() {
-
         axios.get('/getAll')
           .then(response => {
             this.setState({ students: response.data })
@@ -37,27 +34,22 @@ export default class StudentList extends Component {
             console.log(error);
           })
         }
-
         //function to delete one student depending on studentId
     deleteStudent(id) {
         axios.delete('/deleteOne/:'+id)
           .then(response => { console.log(response.data)});
-    
         this.setState({
           students: this.state.students.filter(el => el.id !== id)
         })
       };
-
       //this is to list data one by one to create Student component for every student 
     studentsList() {
       const {searchTrim} = this.props;
       const {students} = this.state;
-      
-        return students.filter((el => el.studentName.includes(searchTrim))).map(currentstudent => {
+        return students.filter((el => el.studentName !== null && el.studentName.includes(searchTrim))).map(currentstudent => {
           return <Student key={currentstudent.id} student={currentstudent} deleteStudent={this.deleteStudent} key={currentstudent.studentId}/>;
      })
     }
-    
     render() {
         return (
           <div>
@@ -79,5 +71,4 @@ export default class StudentList extends Component {
           </div>
         )
       }    
-
     }

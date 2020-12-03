@@ -20,7 +20,7 @@ export default class Navbar extends Component {
                       <Link to="/crud/marks" className="nav-link">Marks</Link>      
                 </li>
                 <li className="navbar-item">          
-                     <Link to="addSubject" className="nav-link">subject</Link>      
+                     <Link to="/createsubject" className="nav-link">subject</Link>      
                 </li>
                        
                 </ul> 
