@@ -7,6 +7,7 @@ import Navbar from './components/navbar.component'
 import CreateStudent from './components/createStudent.component';
 import CreateAdmin from './components/createAdmin.component';
 import MarksForm from './components/marks.component';
+import loginForm from './components/loginForm'
 
 function App()  {
   
@@ -19,6 +20,8 @@ function App()  {
          <Route path ='/create/student'  component ={CreateStudent}></Route>
          <Route path ='/create/admin'  component ={CreateAdmin}></Route>
          <Route path ='/crud/marks'  component ={MarksForm}></Route>
+         <Route path ='/login'  component ={loginForm}></Route>
+
 
         </div>
 

@@ -2,8 +2,20 @@ var models = require('../models/admin');
 var db = require('../database')
 const body= require('body-parser');
 var app = require('../../server/server')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
-  
+
+
+
+
+
+
+
+// const users = ['duaa' , 'sahar' , 'rana', 'maysaa']
+
+
 
 
 module.exports = {
@@ -17,17 +29,24 @@ module.exports = {
         })
        },
 
-       createadmin: function (req, res) {
-          
-        //    console.log(req.body,'req.body')
-        var params =[req.body.adminName,req.body.adminpassword];
-        console.log(req.body.adminName,"create")
-        models.createadmin(params, function(err, results) {
-          if (err) { console.log("error post at student controller",err) }
-          res.sendStatus(200)
-          
-        });
-      },
+       createadmin : async function(req, res){
+
+        const {adminName, adminpassword} = req.body
+        const hash =  await bcrypt.hash(adminpassword, 15,async function(err,hash){
+            if(err){console.log('not hashed')}
+            else{
+                const params = [adminName, hash]
+                await models.createadmin(params,function(err, results) {
+                    if (err) { console.log("error post at student controller",err) }
+                    res.sendStatus(200)
+                    console.log(hash);
+
+                  });
+            }
+        })
+       
+     },
+
        
       deleteOneadmin: function(req,res){
 
@@ -54,5 +73,38 @@ module.exports = {
 
       },
 
-       
-} 
+      login : (req,res ) => {
+        // var params = [req.body.username, req.body.adminpassword];
+        const username = req.body.username;
+        const password = req.body.adminpassword;
+        // const user = {username: req.body.username, password: req.body.adminpassword}
+
+        const token = jwt.sign({name :username}, `${process.env.JWT_KEY}`)
+        res.json({token: token})
+        
+         models.findOne(username, function (err, results) {
+           if(err) {
+             console.log("error at hashed")
+             console.log(req.body)
+           }
+           
+           var hash = results[0].hash
+           console.log(hash);
+           try{
+             if( bcrypt.compare(password, hash)) {
+             res.send("success")
+            
+             res.send(token)
+           }else{
+            res.send("not allowed")
+           }
+           }catch{
+             res.status(500).send()
+           }
+         });
+      }
+
+      
+      }
+     
+

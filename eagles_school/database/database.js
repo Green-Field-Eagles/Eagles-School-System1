@@ -2,32 +2,32 @@ const mysql = require('mysql');
 
 
 
-//create connection//////
+//create connection 
 const db = mysql.createConnection({
-    // port : '3307',
-    host:  '127.0.0.1',
-    user : 'root',
-    password : '12345678',
-    multipleStatements : 'true',
-
+    port: '3306',
+    host: 'localhost',
+    user: 'root',
+    password: 'admin@123J',
+    multipleStatements: 'true',
 });
-
 
 
 
 //Connect Mysql and create database
 
-db.connect(function(err) {  
-    if (err) throw err;  
+db.connect(function(err) {
+    if (err) throw err;
     console.log("Connected!");
-    db.query("CREATE DATABASE IF NOT EXISTS EAGELS" , function(err , result ){
-          if(err) throw err;
-          console.log("Database created");
-     })
-    db.query("USE EAGELS" , function(err , result ){
-           if(err) throw err;
-           console.log("used EAGELS");
+    db.query("CREATE DATABASE IF NOT EXISTS EAGELS", function(err, result) {
+        if (err) throw err;
+        console.log("Database created");
     })
+    db.query("USE EAGELS", function(err, result) {
+        if (err) throw err;
+        console.log("used EAGELS");
+    })
+
+
 
 
     let students = `CREATE TABLE IF NOT EXISTS students
@@ -39,23 +39,23 @@ db.connect(function(err) {
 
     db.query(students, function(err, results, fields) {
         if (err) {
-        console.log(err.message);
+            console.log(err.message);
         }
     });
 
-    
+
 
     let myAdmin = `CREATE TABLE IF NOT EXISTS myAdmin
     (adminId INT(10) AUTO_INCREMENT  NOT NULL AUTO_INCREMENT,
      adminName VARCHAR(30) NOT NULL,
-     adminpassword VARCHAR(50) NOT NULL,
+     hash VARCHAR(70) NOT NULL,
      PRIMARY KEY (adminId)
      );`;
 
     db.query(myAdmin, function(err, results, fields) {
-    if (err) {
-    console.log(err.message);
-    }
+        if (err) {
+            console.log(err.message);
+        }
     });
 
     let userType = `CREATE TABLE IF NOT EXISTS userType
@@ -67,12 +67,12 @@ db.connect(function(err) {
    );`;
 
     db.query(userType, function(err, results) {
-    if (err) {
-    console.log(err.message);
-    }
+        if (err) {
+            console.log(err.message);
+        }
     });
 
-    
+
     let subjects = `CREATE TABLE IF NOT EXISTS subjects
     (
     subjectId INT(10) AUTO_INCREMENT NOT NULL AUTO_INCREMENT,
@@ -83,13 +83,12 @@ db.connect(function(err) {
     );`;
 
     db.query(subjects, function(err, results) {
-    if (err) {
-    console.log(err.message);
-    }
+        if (err) {
+            console.log(err.message);
+        }
     });
 
 
-    
 
 
     let marks = `CREATE TABLE IF NOT EXISTS marks
@@ -102,18 +101,12 @@ db.connect(function(err) {
     );`;
 
     db.query(marks, function(err, results) {
-    if (err) {
-    console.log(err.message);
-    }
+        if (err) {
+            console.log(err.message);
+        }
     });
 
-    // db.end(function(err) {
-    //     if (err) {
-    //       return console.log(err.message);
-    //     }
-    //   });
-
-
+   
 
 });
 

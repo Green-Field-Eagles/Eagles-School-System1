@@ -17,7 +17,7 @@ module.exports= {
     
     //create new admin
     createadmin:(params,callback) =>{
-        var queryStr = `insert into myAdmin(adminName,adminPassword) values (?,?)`;
+        var queryStr = `insert into myAdmin(adminName,hash) values (?,?)`;
          db.query(queryStr,params,function(err,results){
              callback(err,results)
          });
@@ -39,7 +39,16 @@ module.exports= {
         db.query(queryStr,params,function(err,results){
             callback(err,results)
         });
+    },
+
+    findOne : (params, callback) => {
+        var queryStr = `SELECT * FROM myAdmin WHERE adminName = ?`
+        db.query(queryStr,params,function(err,results){
+            callback(err,results)
+        });
     }
 
 
 };
+
+// `SELECT myAdmin.hash FROM myAdmin WHERE myAdmin.adminName = ?`

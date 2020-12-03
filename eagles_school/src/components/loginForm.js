@@ -4,10 +4,31 @@ class LoginForm extends Component {
     state = {
         account : {
             username : '',
-            password : ''
+            password : '',
+            login : false,
+            store : null
         },
         errors : {}
     }
+
+    // login(){
+
+    //     fetch('http://localhost:3006/adminlogin',{
+    //         method: "POST",
+    //         body : JSON.stringify(this.state)
+    //     }).then((response) =>{
+    //         response.json().then((result) =>{
+    //             console.warn("result", result)
+    //             localStorage.setItem('login',JSON.stringify({
+    //                 login : true,
+    //                 token : result.token
+    //             }))
+    //             this.setState({login : true})
+    //         })
+    //     })
+    // }
+
+
     validate = () => {
      if(this.state.account.username.trim() === '')
        this.errors.username = 'username is required'
@@ -28,16 +49,16 @@ class LoginForm extends Component {
             return;
         }
         const data = {
-            username : this.username,
-            password : this.password
+            username : this.state.username,
+            password : this.state.password
         }
-        Axios.post('/login', data)
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        // Axios.post('/login', data)
+        // .then(res => {
+        //     console.log(res)
+        // })
+        // .catch(err => {
+        //     console.log(err)
+        // })
     };
     handleChange = e => {
         const account = {...this.state.accout}
@@ -63,7 +84,7 @@ class LoginForm extends Component {
                       onChange = {this.handleChange}
                       type="text"
                        className="form-control"/></div>
-                    <button className="btn btn-primary">login</button>
+                    <button onClick = {(this.login)} className="btn btn-primary">login</button>
                 </form>
         </div>
     }
