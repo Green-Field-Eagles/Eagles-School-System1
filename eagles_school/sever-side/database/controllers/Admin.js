@@ -1,7 +1,11 @@
 var models = require('../models/admin');
 var db = require('../database')
 const body= require('body-parser');
-var app = require('../../server/server')
+var app = require('../../server/server');
+ const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+
 
   
 

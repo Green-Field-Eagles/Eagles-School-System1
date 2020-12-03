@@ -17,7 +17,7 @@ module.exports= {
     
     //create new admin
     createadmin:(params,callback) =>{
-        var queryStr = `insert into myAdmin(adminName,adminPassword) values (?,?)`;
+        var queryStr = `insert into myAdmin(adminName,hash) values (?,?)`;
          db.query(queryStr,params,function(err,results){
              callback(err,results)
          });
@@ -41,6 +41,12 @@ module.exports= {
         });
     },
 
+    // findOne : (params, callback) => {
+    //     var queryStr = `SELECT * FROM myAdmin WHERE adminName = ?`
+    //     db.query(queryStr,params,function(err,results){
+    //         callback(err,results)
+
+
     updateOneadmin: (params, callback) => {
         var queryStr = `update students set adminName = ?, adminpassword = ? where adminId = ?`;
         db.query(queryStr, params, function(err, results) {
@@ -51,3 +57,5 @@ module.exports= {
 
 
 };
+
+// `SELECT myAdmin.hash FROM myAdmin WHERE myAdmin.adminName = ?`
