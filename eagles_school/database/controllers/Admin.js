@@ -6,18 +6,6 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
-
-
-
-
-
-
-
-// const users = ['duaa' , 'sahar' , 'rana', 'maysaa']
-
-
-
-
 module.exports = {
 
     getAlladmin:(req,res) =>{
@@ -79,13 +67,13 @@ module.exports = {
         const password = req.body.adminpassword;
         // const user = {username: req.body.username, password: req.body.adminpassword}
 
-        const token = jwt.sign({name :username}, `${process.env.JWT_KEY}`)
-        res.json({token: token})
+        const token = jwt.sign(username, `${process.env.JWT_KEY}`)
+        res.header('auth-token', token).send(token);
         
          models.findOne(username, function (err, results) {
            if(err) {
              console.log("error at hashed")
-             console.log(req.body)
+            //  console.log(req.body)
            }
            
            var hash = results[0].hash

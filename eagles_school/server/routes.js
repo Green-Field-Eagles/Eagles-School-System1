@@ -1,7 +1,7 @@
 
 const controller = require('../database/controllers');
-var router = require('express').Router();
-var body = require('body-parser');
+const router = require('express').Router();
+const body = require('body-parser');
 
 
 /*student's table routes */

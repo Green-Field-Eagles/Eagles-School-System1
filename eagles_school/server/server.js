@@ -7,7 +7,9 @@ const app = express();
 const bcrypt = require('bcrypt')
 require('dotenv').config()
 app.use(bodyParser.json())
+const postRoute = require('./posts')
 
+app.use('/posts', postRoute);
 
 app.use("/",router.router);
 
